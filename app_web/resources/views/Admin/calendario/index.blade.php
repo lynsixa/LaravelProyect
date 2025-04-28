@@ -32,7 +32,6 @@
         min-height: 600px;
     }
 </style>
-
 <script>
     $(document).ready(function() {
         var calendar = new FullCalendar.Calendar($('#calendar')[0], {
@@ -42,17 +41,22 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            events: "{{ route('admin.calendario.eventos') }}", // Aquí estamos usando la ruta para obtener los eventos en formato JSON
-            eventDidMount: function(info) {
-                // Personalización para eventos con descripción
-                if (info.event.extendedProps.description) {
-                    var tooltip = new bootstrap.Tooltip(info.el, {
-                        title: info.event.extendedProps.description,
-                        placement: 'top',
-                        trigger: 'hover',
-                        container: 'body'
-                    });
-                }
+            events: function(info, successCallback, failureCallback) {
+                // Llamamos a la ruta para obtener los eventos para el mes actual
+                $.ajax({
+                    url: "{{ route('admin.calendario.eventos') }}",
+                    dataType: 'json',
+                    data: {
+                        start: info.startStr, // Enviar la fecha de inicio
+                        end: info.endStr,     // Enviar la fecha de fin
+                    },
+                    success: function(data) {
+                        successCallback(data);  // Pasamos los datos de los eventos a FullCalendar
+                    },
+                    error: function() {
+                        failureCallback("No se pudieron cargar los eventos");
+                    }
+                });
             },
             navLinks: true, // Permite navegar entre los días
             editable: true,  // Habilita la edición
@@ -63,4 +67,5 @@
         calendar.render();
     });
 </script>
+
 @endsection

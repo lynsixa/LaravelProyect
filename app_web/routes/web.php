@@ -38,5 +38,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Ruta para el calendario
     Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
-    Route::get('/calendario/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos'); // Ruta para obtener los eventos
+    Route::get('/calendario/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos');
 });
