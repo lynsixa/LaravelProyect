@@ -32,11 +32,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Rutas para la gestión de eventos
     Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.index');
     Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
-    Route::get('/eventos/{evento}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
+    Route::get('/eventos/{evento}/edit', [EventoController::class, 'edit'])->name('eventos.edit');  // Corregido aquí
     Route::put('/eventos/{evento}', [EventoController::class, 'update'])->name('eventos.update');
     Route::delete('/eventos/{evento}', [EventoController::class, 'destroy'])->name('eventos.destroy');
 
     // Ruta para el calendario
     Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
-    Route::get('/calendario/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos');
+    Route::get('/calendario/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos'); // Ruta para obtener los eventos
 });

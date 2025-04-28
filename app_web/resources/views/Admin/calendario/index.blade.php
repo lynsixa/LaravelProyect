@@ -42,7 +42,7 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            events: "{{ route('admin.calendario.eventos') }}", // Obtenemos eventos desde la ruta API
+            events: "{{ route('admin.calendario.eventos') }}", // Aquí estamos usando la ruta para obtener los eventos en formato JSON
             eventDidMount: function(info) {
                 // Personalización para eventos con descripción
                 if (info.event.extendedProps.description) {
