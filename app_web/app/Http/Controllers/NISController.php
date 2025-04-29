@@ -39,6 +39,18 @@ class NISController extends Controller
             'menu_id' => 'required|exists:menu,idMenu', // Asegúrate que el menu_id sea válido
         ]);
 
+        // Verificar si ya existe un NIS con la misma descripción, número de mesa y piso
+        $existingNis = NIS::where('Descripcion', $request->descripcion)
+                          ->whereHas('Mesa', function($query) use ($request) {
+                              $query->where('NumeroPiso', $request->numero_piso)
+                                    ->where('NumeroMesa', $request->numero_mesa);
+                          })
+                          ->first();
+
+        if ($existingNis) {
+            return redirect()->back()->withErrors('Ya existe un NIS con esa descripción y mesa.');
+        }
+
         // Verificar si la mesa ya existe
         $mesa = Mesa::where('NumeroPiso', $request->numero_piso)
                     ->where('NumeroMesa', $request->numero_mesa)
@@ -92,6 +104,16 @@ class NISController extends Controller
 
         // Buscar el NIS que se va a editar
         $nis = NIS::findOrFail($id);
+
+        // Verificar si ya existe otro NIS con la misma descripción y mesa (en la base de datos)
+        $existingNis = NIS::where('Descripcion', $request->descripcion)
+                          ->where('Mesa_idMesa', $nis->Mesa_idMesa) // Aseguramos que sea el mismo ID de mesa
+                          ->where('idCodigoNis', '!=', $id) // Aseguramos que no sea el mismo NIS
+                          ->first();
+
+        if ($existingNis) {
+            return redirect()->back()->withErrors('Ya existe un NIS con esa descripción y mesa.');
+        }
 
         // Buscar la mesa usando el número de piso del formulario y el número de mesa existente en el NIS
         $mesa = Mesa::where('NumeroPiso', $request->numero_piso)
