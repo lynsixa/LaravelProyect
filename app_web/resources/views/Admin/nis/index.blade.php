@@ -8,6 +8,11 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <!-- Botón para volver al índice del administrador -->
+    <a href="{{ route('admin.index') }}" class="btn btn-secondary mb-4">
+        <i class="bi bi-arrow-left-circle"></i> Volver al índice
+    </a> </br>
+
     <a href="{{ route('admin.nis.create') }}" class="btn btn-primary mb-4">Crear NIS</a>
 
     <table class="table table-bordered table-hover text-center">
