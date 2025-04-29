@@ -9,6 +9,7 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\NISController;  // Asegúrate de importar el controlador NIS
 use App\Http\Controllers\UsuarioController;  // Agregado para gestionar usuarios
+use App\Http\Controllers\InformeController;  // Asegúrate de importar el controlador de informes
 
 // Rutas de inicio, registro y login
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -51,10 +52,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/nis/{nis}', [NISController::class, 'destroy'])->name('nis.destroy');
 
     // Rutas para la gestión de Usuarios
-        Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuario.index');
-        Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuario.create');
-        Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuario.store');
-        Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
-        Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
-        Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuario.index');
+    Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuario.create');
+    Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuario.store');
+    Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
+    Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
+    Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
+
+    // Rutas para los informes
+    Route::get('/informes', [InformeController::class, 'index'])->name('informes.index');
+    Route::get('/informes/usuarios', [InformeController::class, 'generarInformeUsuarios'])->name('informes.usuarios');
+    Route::get('/informes/ordenes', [InformeController::class, 'generarInformeOrdenes'])->name('informes.ordenes');
+    Route::get('/informes/todos', [InformeController::class, 'generarTodosLosInformes'])->name('informes.todos');
 });

@@ -15,7 +15,7 @@
                 <li><a href="{{ route('admin.eventos.index') }}"><i class="bi bi-list-ul"></i> Eventos</a></li>
                 <li><a href="{{ route('admin.nis.index') }}"><i class="bi bi-tags"></i> NIS</a></li>
                 <li><a href="{{ route('admin.usuario.index') }}"><i class="bi bi-person-fill"></i> Usuario</a></li> <!-- Ruta actualizada -->
-                <li><a href="#"><i class="bi bi-archive"></i> Informe</a></li>
+                <li><a href="{{ route('admin.informes.index') }}" class="btn">Informe</a></li>
                 <li><a href="#"><i class="bi bi-bag-plus"></i> Subir Producto</a></li>
                 <li>
                     <form action="{{ route('logout') }}" method="POST">
@@ -40,7 +40,7 @@
             <a href="{{ route('admin.eventos.index') }}" class="btn">Eventos</a>
             <a href="{{ route('admin.nis.index') }}" class="btn">NIS</a>
             <a href="{{ route('admin.usuario.index') }}" class="btn">Usuarios</a> <!-- Ruta actualizada -->
-            <a href="#" class="btn">Informe</a>
+            <li><a href="{{ route('admin.informes.index') }}" class="btn">Informe</a></li>>
             <a href="#" class="btn">Subir Producto</a>
         </div>
 
