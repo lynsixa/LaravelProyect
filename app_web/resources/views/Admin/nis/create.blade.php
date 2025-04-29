@@ -2,8 +2,9 @@
 
 @section('content')
 <div class="container py-5">
+    <!-- Formulario para crear NIS -->
     <h2 class="mb-4 text-primary">Crear NIS</h2>
-
+    
     <form action="{{ route('admin.nis.store') }}" method="POST">
         @csrf
 

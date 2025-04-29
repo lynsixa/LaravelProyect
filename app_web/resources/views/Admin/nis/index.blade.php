@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container py-5">
+    <!-- Lista de NIS -->
     <h2 class="mb-4 text-primary">Lista de NIS</h2>
 
     @if(session('success'))
@@ -21,15 +22,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($nis as $nis)
+            @foreach($nis as $item)
                 <tr>
-                    <td>{{ $nis->idCodigoNis }}</td>
-                    <td>{{ $nis->Descripcion }}</td>
-                    <td>{{ $nis->Mesa->NumeroMesa }}</td>
-                    <td>{{ $nis->Menu->Descripcion }}</td>
+                    <td>{{ $item->idCodigoNis }}</td>
+                    <td>{{ $item->Descripcion }}</td>
+                    <td>{{ $item->Mesa->NumeroMesa }}</td>
+                    <td>{{ $item->Menu->Descripcion }}</td>
                     <td>
-                        <a href="{{ route('admin.nis.edit', $nis->idCodigoNis) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('admin.nis.destroy', $nis->idCodigoNis) }}" method="POST" class="d-inline">
+                        <a href="{{ route('admin.nis.edit', $item->idCodigoNis) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="{{ route('admin.nis.destroy', $item->idCodigoNis) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Eliminar</button>

@@ -1,21 +1,28 @@
 <?php
 
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class NIS extends Model
 {
-    use HasFactory;
+    protected $table = 'codigonis'; // Asegúrate de que el nombre de la tabla sea correcto
 
-    // Especifica el nombre de la tabla, porque no sigue la convención de Laravel
-    protected $table = 'codigonis';  // Nombre correcto de la tabla
-
-    // Definir qué campos pueden ser asignados masivamente (mass assignment)
     protected $fillable = ['Descripcion', 'Mesa_idMesa', 'Menu_idMenu', 'Disponibilidad', 'Eventos_idEventos'];
 
-    // Si no quieres usar timestamps (created_at, updated_at), establece false
-    public $timestamps = false;  // En caso de que tu tabla no use estos campos
+    // Definir las relaciones
+    public function mesa()
+    {
+        return $this->belongsTo(Mesa::class, 'Mesa_idMesa');
+    }
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'Menu_idMenu');
+    }
+
+    public function evento()
+    {
+        return $this->belongsTo(Evento::class, 'Eventos_idEventos');
+    }
 }

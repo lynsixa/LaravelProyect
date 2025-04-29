@@ -6,7 +6,7 @@ use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RecuperarController;
 use App\Http\Controllers\EventoController;
-use App\Http\Controllers\CalendarioController; 
+use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\NISController;  // Asegúrate de importar el controlador NIS
 
 // Rutas de inicio, registro y login
