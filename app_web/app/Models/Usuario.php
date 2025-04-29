@@ -27,4 +27,16 @@ class Usuario extends Model
 
     public $incrementing = true;
     protected $keyType = 'int';
+
+    // Relación con TipoDeDocumento
+    public function tipoDeDocumento()
+    {
+        return $this->belongsTo(TipoDeDocumento::class, 'Tipo_de_documento_idTipodedocumento', 'idTipodedocumento');
+    }
+
+    // Relación con Rol
+    public function roles()
+    {
+        return $this->belongsTo(Rol::class, 'Roles_idRoles', 'idRoles');
+    }
 }

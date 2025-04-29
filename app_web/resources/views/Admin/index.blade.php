@@ -13,8 +13,8 @@
             <ul class="menu list-unstyled">
                 <li><a href="#" ><i class="bi bi-house-door-fill"></i> Inicio</a></li>
                 <li><a href="{{ route('admin.eventos.index') }}"><i class="bi bi-list-ul"></i> Eventos</a></li>
-                <li><a href="{{ route('admin.nis.index') }}"><i class="bi bi-tags"></i> NIS</a></li> <!-- Cambié la ruta aquí -->
-                <li><a href="#"><i class="bi bi-person-fill"></i> Usuarios</a></li>
+                <li><a href="{{ route('admin.nis.index') }}"><i class="bi bi-tags"></i> NIS</a></li>
+                <li><a href="{{ route('admin.usuario.index') }}"><i class="bi bi-person-fill"></i> Usuario</a></li> <!-- Ruta actualizada -->
                 <li><a href="#"><i class="bi bi-archive"></i> Informe</a></li>
                 <li><a href="#"><i class="bi bi-bag-plus"></i> Subir Producto</a></li>
                 <li>
@@ -37,9 +37,9 @@
 
         <div class="botones-container">
             <a href="{{ route('admin.calendario.index') }}" class="btn">Calendario</a>
-            <a href="{{ route('admin.eventos.index') }}" class="btn">Eventos</a> {{-- 🎯 Aquí corregido --}}
-            <a href="{{ route('admin.nis.index') }}" class="btn">NIS</a>  <!-- Cambié la ruta aquí -->
-            <a href="#" class="btn">Usuarios</a>
+            <a href="{{ route('admin.eventos.index') }}" class="btn">Eventos</a>
+            <a href="{{ route('admin.nis.index') }}" class="btn">NIS</a>
+            <a href="{{ route('admin.usuario.index') }}" class="btn">Usuarios</a> <!-- Ruta actualizada -->
             <a href="#" class="btn">Informe</a>
             <a href="#" class="btn">Subir Producto</a>
         </div>

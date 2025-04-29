@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RecuperarController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\NISController;  // Asegúrate de importar el controlador NIS
+use App\Http\Controllers\UsuarioController;  // Agregado para gestionar usuarios
 
 // Rutas de inicio, registro y login
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,4 +49,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/nis/{nis}/edit', [NISController::class, 'edit'])->name('nis.edit');
     Route::put('/nis/{nis}', [NISController::class, 'update'])->name('nis.update');
     Route::delete('/nis/{nis}', [NISController::class, 'destroy'])->name('nis.destroy');
+
+    // Rutas para la gestión de Usuarios
+        Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuario.index');
+        Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuario.create');
+        Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuario.store');
+        Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
+        Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
+        Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
 });
