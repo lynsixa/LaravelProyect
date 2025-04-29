@@ -4,33 +4,59 @@
 <div class="container py-5">
     <h2 class="mb-4 text-primary">Editar NIS</h2>
 
-    <form method="POST" action="{{ route('admin.nis.update', $nis->idCodigoNis) }}">
+    <!-- Mensaje de error si existe -->
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('admin.nis.update', $nis->idCodigoNis) }}" method="POST">
         @csrf
         @method('PUT')
 
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <input type="text" class="form-control" name="descripcion" id="descripcion" value="{{ old('descripcion', $nis->Descripcion) }}" required>
+        <div class="form-group mb-3">
+            <label for="descripcion">Descripción</label>
+            <input type="text" class="form-control" name="descripcion" value="{{ $nis->Descripcion }}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="numero_piso" class="form-label">Número de Piso</label>
-            <input type="number" class="form-control" name="numero_piso" id="numero_piso" value="{{ old('numero_piso', $nis->Mesa->NumeroPiso) }}" required>
+        <div class="form-group mb-3">
+            <label for="numero_piso">Número de Piso</label>
+            <input type="number" class="form-control" name="numero_piso" value="{{ $nis->Mesa->NumeroPiso }}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="numero_mesa" class="form-label">Número de Mesa</label>
-            <input type="number" class="form-control" name="numero_mesa" id="numero_mesa" value="{{ old('numero_mesa', $nis->Mesa->NumeroMesa) }}" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="menu_id" class="form-label">Menú</label>
+        <div class="form-group mb-3">
+            <label for="menu_id">Menú</label>
             <select name="menu_id" class="form-control" required>
                 @foreach($menus as $menu)
-                    <option value="{{ $menu->idMenu }}" {{ $nis->Menu->idMenu == $menu->idMenu ? 'selected' : '' }}>
+                    <option value="{{ $menu->idMenu }}" {{ $nis->Menu_idMenu == $menu->idMenu ? 'selected' : '' }}>
                         {{ $menu->Descripcion }}
                     </option>
                 @endforeach
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="eventos_id">Evento (Opcional)</label>
+            <select name="eventos_id" class="form-control">
+                <option value="">Seleccionar Evento (Opcional)</option>
+                @foreach($eventos as $evento)
+                    <option value="{{ $evento->idEventos }}" {{ $nis->Eventos_idEventos == $evento->idEventos ? 'selected' : '' }}>
+                        {{ $evento->Titulo }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="disponibilidad">Disponibilidad</label>
+            <select name="disponibilidad" class="form-control" required>
+                <option value="1" {{ $nis->Disponibilidad == 1 ? 'selected' : '' }}>Disponible</option>
+                <option value="0" {{ $nis->Disponibilidad == 0 ? 'selected' : '' }}>No Disponible</option>
             </select>
         </div>
 

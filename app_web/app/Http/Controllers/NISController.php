@@ -64,4 +64,67 @@ class NISController extends Controller
         // Redirigir al índice de NIS con un mensaje de éxito
         return redirect()->route('admin.nis.index')->with('success', 'NIS creado exitosamente');
     }
+
+    // Mostrar el formulario para editar un NIS
+    public function edit($id)
+    {
+        // Buscar el NIS usando la columna primaria correcta
+        $nis = NIS::findOrFail($id);
+
+        // Obtener todas las mesas, menús y eventos
+        $mesas = Mesa::all();
+        $menus = Menu::all();
+        $eventos = Evento::all();
+
+        return view('admin.nis.edit', compact('nis', 'mesas', 'menus', 'eventos'));
+    }
+
+    // Actualizar los datos de un NIS
+    public function update(Request $request, $id)
+    {
+        // Validación de los datos del formulario
+        $request->validate([
+            'descripcion' => 'required|string|max:100|unique:codigonis,Descripcion,' . $id . ',idCodigoNis',  // Asegura que el código no se repita
+            'numero_piso' => 'required|integer',
+            'menu_id' => 'required|exists:menu,idMenu',
+            'disponibilidad' => 'required|boolean',
+        ]);
+
+        // Buscar el NIS que se va a editar
+        $nis = NIS::findOrFail($id);
+
+        // Buscar la mesa usando el número de piso del formulario y el número de mesa existente en el NIS
+        $mesa = Mesa::where('NumeroPiso', $request->numero_piso)
+                    ->where('NumeroMesa', $nis->Mesa->NumeroMesa) // Usamos el número de mesa actual
+                    ->first();
+
+        if (!$mesa) {
+            return redirect()->back()->withErrors('La mesa no existe en la base de datos');
+        }
+
+        // Actualizar el NIS
+        $nis->update([
+            'Descripcion' => $request->descripcion,
+            'Mesa_idMesa' => $mesa->idMesa,
+            'Menu_idMenu' => $request->menu_id,
+            'Eventos_idEventos' => $request->eventos_id,
+            'Disponibilidad' => $request->disponibilidad,
+        ]);
+
+        // Redirigir al índice de NIS con un mensaje de éxito
+        return redirect()->route('admin.nis.index')->with('success', 'NIS actualizado exitosamente');
+    }
+
+    // Eliminar un NIS
+    public function destroy($id)
+    {
+        // Buscar el NIS que se va a eliminar
+        $nis = NIS::findOrFail($id);
+        
+        // Eliminar el NIS
+        $nis->delete();
+
+        // Redirigir al índice de NIS con un mensaje de éxito
+        return redirect()->route('admin.nis.index')->with('success', 'NIS eliminado exitosamente');
+    }
 }

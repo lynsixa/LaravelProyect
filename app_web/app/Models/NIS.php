@@ -6,23 +6,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class NIS extends Model
 {
-    protected $table = 'codigonis'; // Asegúrate de que el nombre de la tabla sea correcto
+    protected $table = 'codigonis';
+    protected $primaryKey = 'idCodigoNis';
+    public $timestamps = true;
 
-    protected $fillable = ['Descripcion', 'Mesa_idMesa', 'Menu_idMenu', 'Disponibilidad', 'Eventos_idEventos'];
+    protected $fillable = [
+        'Descripcion', 
+        'Mesa_idMesa', 
+        'Menu_idMenu', 
+        'Eventos_idEventos', 
+        'Disponibilidad'
+    ];
 
-    // Definir las relaciones
+    // Relación con Mesa
     public function mesa()
     {
-        return $this->belongsTo(Mesa::class, 'Mesa_idMesa');
+        return $this->belongsTo(Mesa::class, 'Mesa_idMesa', 'idMesa'); // Asegúrate de que las claves coincidan
     }
 
+    // Relación con Menu
     public function menu()
     {
-        return $this->belongsTo(Menu::class, 'Menu_idMenu');
+        return $this->belongsTo(Menu::class, 'Menu_idMenu', 'idMenu');
     }
 
+    // Relación con Evento
     public function evento()
     {
-        return $this->belongsTo(Evento::class, 'Eventos_idEventos');
+        return $this->belongsTo(Evento::class, 'Eventos_idEventos', 'idEventos');
     }
 }

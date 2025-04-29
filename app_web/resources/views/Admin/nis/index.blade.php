@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container py-5">
-    <!-- Lista de NIS -->
     <h2 class="mb-4 text-primary">Lista de NIS</h2>
 
     @if(session('success'))
@@ -18,19 +17,21 @@
                 <th>Descripción</th>
                 <th>Número de Mesa</th>
                 <th>Menú</th>
+                <th>Disponibilidad</th> <!-- Columna para disponibilidad -->
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($nis as $item)
+            @foreach($nis as $nis)
                 <tr>
-                    <td>{{ $item->idCodigoNis }}</td>
-                    <td>{{ $item->Descripcion }}</td>
-                    <td>{{ $item->Mesa->NumeroMesa }}</td>
-                    <td>{{ $item->Menu->Descripcion }}</td>
+                    <td>{{ $nis->idCodigoNis }}</td>
+                    <td>{{ $nis->Descripcion }}</td>
+                    <td>{{ $nis->Mesa->NumeroMesa }}</td>
+                    <td>{{ $nis->Menu->Descripcion }}</td>
+                    <td>{{ $nis->Disponibilidad == 1 ? 'Disponible' : 'No Disponible' }}</td> <!-- Mostrar disponibilidad -->
                     <td>
-                        <a href="{{ route('admin.nis.edit', $item->idCodigoNis) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('admin.nis.destroy', $item->idCodigoNis) }}" method="POST" class="d-inline">
+                        <a href="{{ route('admin.nis.edit', $nis->idCodigoNis) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="{{ route('admin.nis.destroy', $nis->idCodigoNis) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Eliminar</button>
