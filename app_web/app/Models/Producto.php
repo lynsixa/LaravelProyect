@@ -1,7 +1,5 @@
 <?php
 
-// app/Models/Producto.php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,14 +10,16 @@ class Producto extends Model
     use HasFactory;
 
     protected $table = 'producto';
+    protected $primaryKey = 'idProducto';
+    public $timestamps = true;
 
     protected $fillable = [
-        'Precio', 'Disponibilidad', 'Cantidad', 'CodigoNis_idCodigoNis', 'Categoria_idCategoria'
+        'Precio', 'Disponibilidad', 'Cantidad',
+        'CodigoNis_idCodigoNis', 'Categoria_idCategoria'
     ];
 
-    // Relación con Categoria
     public function categoria()
     {
-        return $this->hasOne(Categoria::class, 'Producto_idProducto');
+        return $this->hasOne(Categoria::class, 'Producto_idProducto', 'idProducto');
     }
 }

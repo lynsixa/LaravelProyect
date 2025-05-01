@@ -2,56 +2,50 @@
 
 @section('content')
 <div class="container py-5">
-    <h2 class="mb-4 text-primary">Subir Nuevo Producto</h2>
+    <h2 class="mb-4">Crear Producto</h2>
 
-    @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+    <!-- Botón para volver al listado -->
+    <a href="{{ route('admin.producto.index') }}" class="btn btn-secondary mb-4">← Volver a la lista de productos</a>
 
     <form action="{{ route('admin.producto.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-group mb-3">
-            <label for="precio">Precio</label>
-            <input type="number" step="0.001" class="form-control" name="precio" required>
+
+        <div class="mb-3">
+            <label>Precio</label>
+            <input type="number" name="precio" max="9999999.999" step="0.001" class="form-control" required>
         </div>
 
-        <div class="form-group mb-3">
-            <label for="cantidad">Cantidad</label>
-            <input type="number" class="form-control" name="cantidad" required>
+        <div class="mb-3">
+            <label>Cantidad</label>
+            <input type="number" name="cantidad" class="form-control" required>
         </div>
 
-        <div class="form-group mb-3">
-            <label for="nombre_categoria">Nombre de la Categoría</label>
-            <input type="text" class="form-control" name="nombre_categoria" required>
+        <div class="mb-3">
+            <label>Nombre de Categoría</label>
+            <input type="text" name="nombre_categoria" class="form-control" required>
         </div>
 
-        <div class="form-group mb-3">
-            <label for="descripcion">Descripción</label>
+        <div class="mb-3">
+            <label>Descripción</label>
             <textarea name="descripcion" class="form-control" required></textarea>
         </div>
 
-        <div class="form-group mb-3">
-            <label for="imagen1">Imagen 1 (Obligatoria)</label>
-            <input type="file" class="form-control" name="imagen1" accept="image/*" required>
+        <div class="mb-3">
+            <label>Imagen 1</label>
+            <input type="file" name="imagen1" class="form-control" required>
         </div>
 
-        <div class="form-group mb-3">
-            <label for="imagen2">Imagen 2 (Opcional)</label>
-            <input type="file" class="form-control" name="imagen2" accept="image/*">
+        <div class="mb-3">
+            <label>Imagen 2</label>
+            <input type="file" name="imagen2" class="form-control">
         </div>
 
-        <div class="form-group mb-3">
-            <label for="imagen3">Imagen 3 (Opcional)</label>
-            <input type="file" class="form-control" name="imagen3" accept="image/*">
+        <div class="mb-3">
+            <label>Imagen 3</label>
+            <input type="file" name="imagen3" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-success">Subir Producto</button>
+        <button type="submit" class="btn btn-success">Crear</button>
     </form>
 </div>
 @endsection

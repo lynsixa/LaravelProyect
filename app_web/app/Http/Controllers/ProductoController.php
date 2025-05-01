@@ -1,33 +1,29 @@
 <?php
-// app/Http/Controllers/ProductoController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
-    // Mostrar todos los productos con sus categorías
     public function index()
     {
-        $productos = Producto::with('categoria')->get(); // Cargar productos con categorías
+        $productos = Producto::with('categoria')->get();
         return view('admin.producto.index', compact('productos'));
     }
 
-    // Mostrar el formulario para crear un producto
     public function create()
     {
-        // Obtener todas las categorías disponibles
         return view('admin.producto.create');
     }
 
-    // Almacenar un nuevo producto
     public function store(Request $request)
     {
         $request->validate([
-            'precio' => 'required|numeric',
+            'precio' => 'required|numeric|max:9999999.999',
             'cantidad' => 'required|integer',
             'nombre_categoria' => 'required|string',
             'descripcion' => 'required|string',
@@ -36,58 +32,62 @@ class ProductoController extends Controller
             'imagen3' => 'nullable|image',
         ]);
 
-        // Guardar el producto
-        $producto = Producto::create([
-            'Precio' => $request->precio,
-            'Disponibilidad' => $request->cantidad > 0 ? 1 : 0,
-            'Cantidad' => $request->cantidad,
-            'CodigoNis_idCodigoNis' => null, // Aquí lo puedes actualizar si es necesario
-        ]);
+        DB::beginTransaction();
 
-        // Subir las imágenes
-        $imagenes = [];
-        $carpetaDestino = public_path('fotosProductos/');
+        try {
+            $producto = Producto::create([
+                'Precio' => $request->precio,
+                'Disponibilidad' => $request->cantidad > 0 ? 1 : 0,
+                'Cantidad' => $request->cantidad,
+                'CodigoNis_idCodigoNis' => null,
+                'Categoria_idCategoria' => null,
+            ]);
 
-        for ($i = 1; $i <= 3; $i++) {
-            if ($request->hasFile("imagen$i")) {
-                $nombreArchivo = time() . "_img{$i}_" . $request->file("imagen$i")->getClientOriginalName();
-                $rutaFinal = $carpetaDestino . $nombreArchivo;
+            $imagenes = [];
+            $carpeta = public_path('fotosProductos/');
 
-                if ($request->file("imagen$i")->move($carpetaDestino, $nombreArchivo)) {
-                    $imagenes[] = $nombreArchivo;
+            for ($i = 1; $i <= 3; $i++) {
+                $archivo = $request->file("imagen$i");
+                if ($archivo) {
+                    $nombre = time() . "_img{$i}_" . $archivo->getClientOriginalName();
+                    $archivo->move($carpeta, $nombre);
+                    $imagenes[] = $nombre;
                 } else {
                     $imagenes[] = null;
                 }
-            } else {
-                $imagenes[] = null;
             }
+
+            $categoria = Categoria::create([
+                'Nombre' => $request->nombre_categoria,
+                'Descripcion' => $request->descripcion,
+                'Foto1' => $imagenes[0],
+                'Foto2' => $imagenes[1],
+                'Foto3' => $imagenes[2],
+                'Producto_idProducto' => $producto->idProducto,
+            ]);
+            
+            $producto->Categoria_idCategoria = $categoria->idCategoria;
+            $producto->save();
+            
+            DB::commit();
+
+            return redirect()->route('admin.producto.index')->with('success', 'Producto creado correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors('Error al crear producto: ' . $e->getMessage());
         }
-
-        // Crear la categoría asociada al producto
-        Categoria::create([
-            'Nombre' => $request->nombre_categoria,
-            'Descripcion' => $request->descripcion,
-            'Foto1' => $imagenes[0],
-            'Foto2' => $imagenes[1],
-            'Foto3' => $imagenes[2],
-            'Producto_idProducto' => $producto->id, // Asociamos la categoría al producto
-        ]);
-
-        return redirect()->route('admin.producto.index')->with('success', 'Producto subido correctamente.');
     }
 
-    // Mostrar formulario para editar un producto
     public function edit($id)
     {
-        $producto = Producto::with('categoria')->findOrFail($id); // Cargar el producto con su categoría
+        $producto = Producto::with('categoria')->findOrFail($id);
         return view('admin.producto.edit', compact('producto'));
     }
 
-    // Actualizar un producto
     public function update(Request $request, $id)
     {
         $request->validate([
-            'precio' => 'required|numeric',
+            'precio' => 'required|numeric|max:9999999.999',
             'cantidad' => 'required|integer',
             'nombre_categoria' => 'required|string',
             'descripcion' => 'required|string',
@@ -96,43 +96,47 @@ class ProductoController extends Controller
             'imagen3' => 'nullable|image',
         ]);
 
-        // Actualizar el producto
         $producto = Producto::findOrFail($id);
         $producto->update([
             'Precio' => $request->precio,
-            'Disponibilidad' => $request->cantidad > 0 ? 1 : 0,
             'Cantidad' => $request->cantidad,
+            'Disponibilidad' => $request->cantidad > 0 ? 1 : 0,
         ]);
 
-        // Subir imágenes si se actualizan
-        $imagenes = [];
-        $carpetaDestino = public_path('fotosProductos/');
+        $categoria = $producto->categoria;
+        $imagenes = [$categoria->Foto1, $categoria->Foto2, $categoria->Foto3];
+        $carpeta = public_path('fotosProductos/');
 
         for ($i = 1; $i <= 3; $i++) {
-            if ($request->hasFile("imagen$i")) {
-                $nombreArchivo = time() . "_img{$i}_" . $request->file("imagen$i")->getClientOriginalName();
-                $rutaFinal = $carpetaDestino . $nombreArchivo;
-
-                if ($request->file("imagen$i")->move($carpetaDestino, $nombreArchivo)) {
-                    $imagenes[] = $nombreArchivo;
-                } else {
-                    $imagenes[] = null;
-                }
-            } else {
-                $imagenes[] = null;
+            $archivo = $request->file("imagen$i");
+            if ($archivo) {
+                $nombre = time() . "_img{$i}_" . $archivo->getClientOriginalName();
+                $archivo->move($carpeta, $nombre);
+                $imagenes[$i - 1] = $nombre;
             }
         }
 
-        // Actualizar la categoría asociada
-        $categoria = $producto->categoria;
         $categoria->update([
             'Nombre' => $request->nombre_categoria,
             'Descripcion' => $request->descripcion,
-            'Foto1' => $imagenes[0] ?: $categoria->Foto1, // Si no se carga una nueva imagen, conserva la antigua
-            'Foto2' => $imagenes[1] ?: $categoria->Foto2,
-            'Foto3' => $imagenes[2] ?: $categoria->Foto3,
+            'Foto1' => $imagenes[0],
+            'Foto2' => $imagenes[1],
+            'Foto3' => $imagenes[2],
         ]);
 
         return redirect()->route('admin.producto.index')->with('success', 'Producto actualizado correctamente.');
+    }
+
+    public function destroy($id)
+    {
+        $producto = Producto::findOrFail($id);
+
+        if ($producto->categoria) {
+            $producto->categoria->delete();
+        }
+
+        $producto->delete();
+
+        return redirect()->route('admin.producto.index')->with('success', 'Producto eliminado correctamente.');
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-// app/Models/Categoria.php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,14 +10,15 @@ class Categoria extends Model
     use HasFactory;
 
     protected $table = 'categoria';
+    protected $primaryKey = 'idCategoria';
+    public $timestamps = true;
 
     protected $fillable = [
         'Nombre', 'Descripcion', 'Foto1', 'Foto2', 'Foto3', 'Producto_idProducto'
     ];
 
-    // Relación inversa con Producto
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'Producto_idProducto');
+        return $this->belongsTo(Producto::class, 'Producto_idProducto', 'idProducto');
     }
 }

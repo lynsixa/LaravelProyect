@@ -2,58 +2,49 @@
 
 @section('content')
 <div class="container py-5">
-    <h2 class="mb-4 text-primary">Editar Producto</h2>
-
-    @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
+    <h2>Editar Producto</h2>
     <form action="{{ route('admin.producto.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-
-        <div class="form-group mb-3">
-            <label for="precio">Precio</label>
-            <input type="number" step="0.001" class="form-control" name="precio" value="{{ $producto->Precio }}" required>
+        <div>
+            <label>Precio</label>
+            <input type="text" name="precio" value="{{ $producto->Precio }}" required>
         </div>
-
-        <div class="form-group mb-3">
-            <label for="cantidad">Cantidad</label>
-            <input type="number" class="form-control" name="cantidad" value="{{ $producto->Cantidad }}" required>
+        <div>
+            <label>Cantidad</label>
+            <input type="number" name="cantidad" value="{{ $producto->Cantidad }}" required>
         </div>
-
-        <div class="form-group mb-3">
-            <label for="nombre_categoria">Nombre de la Categoría</label>
-            <input type="text" class="form-control" name="nombre_categoria" value="{{ $producto->categoria->Nombre }}" required>
+        <div>
+            <label>Nombre de Categoría</label>
+            <input type="text" name="nombre_categoria" value="{{ $producto->categoria->Nombre }}" required>
         </div>
-
-        <div class="form-group mb-3">
-            <label for="descripcion">Descripción</label>
-            <textarea name="descripcion" class="form-control" required>{{ $producto->categoria->Descripcion }}</textarea>
+        <div>
+            <label>Descripción</label>
+            <textarea name="descripcion" required>{{ $producto->categoria->Descripcion }}</textarea>
         </div>
-
-        <div class="form-group mb-3">
-            <label for="imagen1">Imagen 1 (Obligatoria)</label>
-            <input type="file" class="form-control" name="imagen1" accept="image/*">
+        <div>
+            <label>Imagen 1</label>
+            <input type="file" name="imagen1">
+            <br>
+            <img src="{{ asset('fotosProductos/' . $producto->categoria->Foto1) }}" width="100">
         </div>
-
-        <div class="form-group mb-3">
-            <label for="imagen2">Imagen 2 (Opcional)</label>
-            <input type="file" class="form-control" name="imagen2" accept="image/*">
+        <div>
+            <label>Imagen 2</label>
+            <input type="file" name="imagen2">
+            @if($producto->categoria->Foto2)
+                <br>
+                <img src="{{ asset('fotosProductos/' . $producto->categoria->Foto2) }}" width="100">
+            @endif
         </div>
-
-        <div class="form-group mb-3">
-            <label for="imagen3">Imagen 3 (Opcional)</label>
-            <input type="file" class="form-control" name="imagen3" accept="image/*">
+        <div>
+            <label>Imagen 3</label>
+            <input type="file" name="imagen3">
+            @if($producto->categoria->Foto3)
+                <br>
+                <img src="{{ asset('fotosProductos/' . $producto->categoria->Foto3) }}" width="100">
+            @endif
         </div>
-
-        <button type="submit" class="btn btn-success">Actualizar Producto</button>
+        <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
     </form>
 </div>
 @endsection

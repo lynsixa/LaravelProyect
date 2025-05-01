@@ -14,9 +14,9 @@
                 <li><a href="#" ><i class="bi bi-house-door-fill"></i> Inicio</a></li>
                 <li><a href="{{ route('admin.eventos.index') }}"><i class="bi bi-list-ul"></i> Eventos</a></li>
                 <li><a href="{{ route('admin.nis.index') }}"><i class="bi bi-tags"></i> NIS</a></li>
-                <li><a href="{{ route('admin.usuario.index') }}"><i class="bi bi-person-fill"></i> Usuario</a></li> <!-- Ruta actualizada -->
+                <li><a href="{{ route('admin.usuario.index') }}"><i class="bi bi-person-fill"></i> Usuario</a></li>
                 <li><a href="{{ route('admin.informes.index') }}" class="btn">Informe</a></li>
-                <li><a href="#"><i class="bi bi-bag-plus"></i> Subir Producto</a></li>
+                <li><a href="{{ route('admin.producto.index') }}"><i class="bi bi-bag-plus"></i> Subir Producto</a></li> <!-- Enlace actualizado -->
                 <li>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
@@ -39,9 +39,9 @@
             <a href="{{ route('admin.calendario.index') }}" class="btn">Calendario</a>
             <a href="{{ route('admin.eventos.index') }}" class="btn">Eventos</a>
             <a href="{{ route('admin.nis.index') }}" class="btn">NIS</a>
-            <a href="{{ route('admin.usuario.index') }}" class="btn">Usuarios</a> <!-- Ruta actualizada -->
-            <li><a href="{{ route('admin.informes.index') }}" class="btn">Informe</a></li>>
-            <a href="#" class="btn">Subir Producto</a>
+            <a href="{{ route('admin.usuario.index') }}" class="btn">Usuarios</a>
+            <a href="{{ route('admin.informes.index') }}" class="btn">Informe</a>
+            <a href="{{ route('admin.producto.index') }}" class="btn">Subir Producto</a> <!-- Enlace actualizado -->
         </div>
 
         <div class="logo-derecho">
