@@ -9,25 +9,23 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    // Mostrar todos los productos
+    // Mostrar todos los productos con sus categorías
     public function index()
     {
-        // Cargar productos con sus respectivas categorías usando 'with' para la relación
-        $productos = Producto::with('categoria')->get(); // Aquí aseguramos que cargamos la relación 'categoria'
+        $productos = Producto::with('categoria')->get(); // Cargar productos con categorías
         return view('admin.producto.index', compact('productos'));
     }
 
-    // Mostrar el formulario para crear un nuevo producto
+    // Mostrar el formulario para crear un producto
     public function create()
     {
-        $categorias = Categoria::all(); // Obtener todas las categorías disponibles
-        return view('admin.producto.create', compact('categorias'));
+        // Obtener todas las categorías disponibles
+        return view('admin.producto.create');
     }
 
     // Almacenar un nuevo producto
     public function store(Request $request)
     {
-        // Validar datos de entrada
         $request->validate([
             'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
@@ -38,7 +36,7 @@ class ProductoController extends Controller
             'imagen3' => 'nullable|image',
         ]);
 
-        // Guardar el producto en la tabla 'producto'
+        // Guardar el producto
         $producto = Producto::create([
             'Precio' => $request->precio,
             'Disponibilidad' => $request->cantidad > 0 ? 1 : 0,
@@ -65,31 +63,29 @@ class ProductoController extends Controller
             }
         }
 
-        // Crear una nueva categoría asociada al producto
+        // Crear la categoría asociada al producto
         Categoria::create([
             'Nombre' => $request->nombre_categoria,
             'Descripcion' => $request->descripcion,
             'Foto1' => $imagenes[0],
             'Foto2' => $imagenes[1],
             'Foto3' => $imagenes[2],
-            'Producto_idProducto' => $producto->id, // Asociar el producto recién creado
+            'Producto_idProducto' => $producto->id, // Asociamos la categoría al producto
         ]);
 
         return redirect()->route('admin.producto.index')->with('success', 'Producto subido correctamente.');
     }
 
-    // Mostrar el formulario para editar un producto
+    // Mostrar formulario para editar un producto
     public function edit($id)
     {
-        $producto = Producto::with('categoria')->findOrFail($id); // Cargar producto y su categoría
-        $categorias = Categoria::all(); // Obtener todas las categorías disponibles
-        return view('admin.producto.edit', compact('producto', 'categorias'));
+        $producto = Producto::with('categoria')->findOrFail($id); // Cargar el producto con su categoría
+        return view('admin.producto.edit', compact('producto'));
     }
 
     // Actualizar un producto
     public function update(Request $request, $id)
     {
-        // Validar datos de entrada
         $request->validate([
             'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
@@ -100,18 +96,15 @@ class ProductoController extends Controller
             'imagen3' => 'nullable|image',
         ]);
 
-        // Obtener el producto existente
-        $producto = Producto::findOrFail($id);
-
         // Actualizar el producto
+        $producto = Producto::findOrFail($id);
         $producto->update([
             'Precio' => $request->precio,
             'Disponibilidad' => $request->cantidad > 0 ? 1 : 0,
             'Cantidad' => $request->cantidad,
-            'CodigoNis_idCodigoNis' => null, // Aquí lo puedes actualizar si es necesario
         ]);
 
-        // Subir las imágenes si existen
+        // Subir imágenes si se actualizan
         $imagenes = [];
         $carpetaDestino = public_path('fotosProductos/');
 
@@ -130,26 +123,16 @@ class ProductoController extends Controller
             }
         }
 
-        // Actualizar la categoría asociada al producto
+        // Actualizar la categoría asociada
         $categoria = $producto->categoria;
         $categoria->update([
             'Nombre' => $request->nombre_categoria,
             'Descripcion' => $request->descripcion,
-            'Foto1' => $imagenes[0] ?? $categoria->Foto1,
-            'Foto2' => $imagenes[1] ?? $categoria->Foto2,
-            'Foto3' => $imagenes[2] ?? $categoria->Foto3,
+            'Foto1' => $imagenes[0] ?: $categoria->Foto1, // Si no se carga una nueva imagen, conserva la antigua
+            'Foto2' => $imagenes[1] ?: $categoria->Foto2,
+            'Foto3' => $imagenes[2] ?: $categoria->Foto3,
         ]);
 
         return redirect()->route('admin.producto.index')->with('success', 'Producto actualizado correctamente.');
-    }
-
-    // Eliminar un producto
-    public function destroy($id)
-    {
-        $producto = Producto::findOrFail($id);
-        $producto->categoria()->delete(); // Eliminar la categoría asociada
-        $producto->delete(); // Eliminar el producto
-
-        return redirect()->route('admin.producto.index')->with('success', 'Producto eliminado correctamente.');
     }
 }

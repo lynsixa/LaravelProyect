@@ -16,7 +16,6 @@
 
     <form action="{{ route('admin.producto.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-
         <div class="form-group mb-3">
             <label for="precio">Precio</label>
             <input type="number" step="0.001" class="form-control" name="precio" required>
@@ -29,11 +28,7 @@
 
         <div class="form-group mb-3">
             <label for="nombre_categoria">Nombre de la Categoría</label>
-            <select class="form-control" name="nombre_categoria" required>
-                @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->Nombre }}">{{ $categoria->Nombre }}</option>
-                @endforeach
-            </select>
+            <input type="text" class="form-control" name="nombre_categoria" required>
         </div>
 
         <div class="form-group mb-3">
