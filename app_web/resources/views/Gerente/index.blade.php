@@ -2,8 +2,10 @@
 
 @section('content')
 <div class="wrapper d-flex">
+    <!-- Barra lateral -->
     <aside class="p-4" style="background-color: #f8f9fa; min-height: 100vh;">
         <div class="text-center mb-4">
+            <!-- Logo -->
             <a href="{{ route('gerente.index') }}">  <!-- Actualizado para gerente -->
                 <img src="{{ asset('img/log.png') }}" alt="EMEN" style="width: 80px;">
             </a>
@@ -31,9 +33,11 @@
         </footer>
     </aside>
 
+    <!-- Contenido principal -->
     <main class="flex-grow-1 p-4">
         <h2 class="mb-4">Bienvenido Gerente</h2>
 
+        <!-- Botones de acceso rápido -->
         <div class="botones-container">
             <a href="{{ route('gerente.calendario.index') }}" class="btn">Calendario</a>  <!-- Actualizado para gerente -->
             <a href="{{ route('gerente.eventos.index') }}" class="btn">Eventos</a>  <!-- Actualizado para gerente -->
@@ -42,6 +46,7 @@
             <a href="{{ route('gerente.producto.index') }}" class="btn">Subir Producto</a>  <!-- Actualizado para gerente -->
         </div>
 
+        <!-- Logo derecho -->
         <div class="logo-derecho">
             <img src="{{ asset('img/log.png') }}" alt="Logo grande EMEN" width="200">
         </div>

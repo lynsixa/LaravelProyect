@@ -8,10 +8,10 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Botón para volver a la página de administración -->
-    <a href="{{ url('/admin') }}" class="btn btn-secondary mb-4">← Volver a la administración</a>
+    <!-- Botón para volver a la página de gerente -->
+    <a href="{{ route('gerente.index') }}" class="btn btn-secondary mb-4">← Volver a la administración</a>  <!-- Cambiado a la ruta gerente -->
 
-    <a href="{{ route('admin.producto.create') }}" class="btn btn-primary mb-4">Crear Nuevo Producto</a>
+    <a href="{{ route('gerente.producto.create') }}" class="btn btn-primary mb-4">Crear Nuevo Producto</a>  <!-- Cambiado a la ruta gerente -->
 
     <table class="table table-bordered table-hover text-center align-middle">
         <thead class="table-light">
@@ -64,8 +64,8 @@
                     </td>
 
                     <td>
-                        <a href="{{ route('admin.producto.edit', $producto->idProducto) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('admin.producto.destroy', $producto->idProducto) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
+                        <a href="{{ route('gerente.producto.edit', $producto->idProducto) }}" class="btn btn-warning btn-sm">Editar</a>  <!-- Cambiado a la ruta gerente -->
+                        <form action="{{ route('gerente.producto.destroy', $producto->idProducto) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">  <!-- Cambiado a la ruta gerente -->
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Eliminar</button>

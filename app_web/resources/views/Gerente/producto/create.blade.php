@@ -5,9 +5,9 @@
     <h2 class="mb-4">Crear Producto</h2>
 
     <!-- Botón para volver al listado -->
-    <a href="{{ route('admin.producto.index') }}" class="btn btn-secondary mb-4">← Volver a la lista de productos</a>
+    <a href="{{ route('gerente.producto.index') }}" class="btn btn-secondary mb-4">← Volver a la lista de productos</a>  <!-- Cambiado a la ruta gerente -->
 
-    <form action="{{ route('admin.producto.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('gerente.producto.store') }}" method="POST" enctype="multipart/form-data">  <!-- Cambiado a la ruta gerente -->
         @csrf
 
         <div class="mb-3">

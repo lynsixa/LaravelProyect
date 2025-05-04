@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-5">
     <h2>Editar Producto</h2>
-    <form action="{{ route('admin.producto.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('gerente.producto.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">  <!-- Cambiado a la ruta gerente -->
         @csrf
         @method('PUT')
         <div>

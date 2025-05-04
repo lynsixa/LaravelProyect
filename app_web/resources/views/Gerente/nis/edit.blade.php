@@ -16,11 +16,11 @@
     @endif
 
     <!-- Botón para volver a la lista de NIS -->
-    <a href="{{ route('admin.nis.index') }}" class="btn btn-secondary mb-3">
+    <a href="{{ route('gerente.nis.index') }}" class="btn btn-secondary mb-3">  <!-- Cambiado a la ruta gerente -->
         <i class="bi bi-arrow-left-circle"></i> Volver a la lista de NIS
     </a>
 
-    <form action="{{ route('admin.nis.update', $nis->idCodigoNis) }}" method="POST">
+    <form action="{{ route('gerente.nis.update', $nis->idCodigoNis) }}" method="POST">  <!-- Cambiado a la ruta gerente -->
         @csrf
         @method('PUT')
 

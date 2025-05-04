@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="container py-5">
-    <a href="{{ route('admin.eventos.index') }}" class="btn btn-dark mb-4">
+    <a href="{{ route('gerente.eventos.index') }}" class="btn btn-dark mb-4">  <!-- Cambiado a la ruta gerente -->
         <i class="bi bi-arrow-left-circle"></i> Volver
     </a>
 
     <div class="card">
         <div class="card-body">
             <h2 class="mb-4 text-primary">Editar Evento</h2>
-            <form method="POST" action="{{ route('admin.eventos.update', $evento->idEventos) }}">
+            <form method="POST" action="{{ route('gerente.eventos.update', $evento->idEventos) }}">  <!-- Cambiado a la ruta gerente -->
                 @csrf
                 @method('PUT')
 

@@ -8,12 +8,12 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Botón para volver al índice del administrador -->
-    <a href="{{ route('admin.index') }}" class="btn btn-secondary mb-4">
+    <!-- Botón para volver al índice del gerente -->
+    <a href="{{ route('gerente.index') }}" class="btn btn-secondary mb-4">  <!-- Cambiado a la ruta gerente -->
         <i class="bi bi-arrow-left-circle"></i> Volver al índice
     </a> </br>
 
-    <a href="{{ route('admin.nis.create') }}" class="btn btn-primary mb-4">Crear NIS</a>
+    <a href="{{ route('gerente.nis.create') }}" class="btn btn-primary mb-4">Crear NIS</a>  <!-- Cambiado a la ruta gerente -->
 
     <table class="table table-bordered table-hover text-center">
         <thead>
@@ -35,8 +35,8 @@
                     <td>{{ $nis->Menu->Descripcion }}</td>
                     <td>{{ $nis->Disponibilidad == 1 ? 'Disponible' : 'No Disponible' }}</td> <!-- Mostrar disponibilidad -->
                     <td>
-                        <a href="{{ route('admin.nis.edit', $nis->idCodigoNis) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('admin.nis.destroy', $nis->idCodigoNis) }}" method="POST" class="d-inline">
+                        <a href="{{ route('gerente.nis.edit', $nis->idCodigoNis) }}" class="btn btn-warning btn-sm">Editar</a>  <!-- Cambiado a la ruta gerente -->
+                        <form action="{{ route('gerente.nis.destroy', $nis->idCodigoNis) }}" method="POST" class="d-inline">  <!-- Cambiado a la ruta gerente -->
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Eliminar</button>

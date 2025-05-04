@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container py-5">
-    <a href="{{ route('admin.index') }}" class="btn btn-dark mb-4">
+    <!-- Botón para volver a la página del gerente -->
+    <a href="javascript:void(0);" onclick="redirectToGerenteIndex()" class="btn btn-dark mb-4">
         <i class="bi bi-arrow-left-circle"></i> Volver
     </a>
 
@@ -25,6 +26,8 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/locales/es.js"></script>
 
+<script src="{{ asset('js/redirect.js') }}"></script> <!-- Aquí se incluye el script para la redirección -->
+
 <style>
     #calendar {
         max-width: 900px;
@@ -32,6 +35,7 @@
         min-height: 600px;
     }
 </style>
+
 <script>
     $(document).ready(function() {
         var calendar = new FullCalendar.Calendar($('#calendar')[0], {
@@ -44,7 +48,7 @@
             events: function(info, successCallback, failureCallback) {
                 // Llamamos a la ruta para obtener los eventos para el mes actual
                 $.ajax({
-                    url: "{{ route('admin.calendario.eventos') }}",
+                    url: "{{ route('gerente.calendario.eventos') }}",  <!-- Cambiado a la ruta gerente -->
                     dataType: 'json',
                     data: {
                         start: info.startStr, // Enviar la fecha de inicio
