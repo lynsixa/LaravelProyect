@@ -10,7 +10,8 @@ use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\NISController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\InformeController;
-use App\Http\Controllers\ProductoController; // Asegúrate de incluir el controlador Producto
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\GerenteController;  // Asegúrate de incluir el controlador Gerente
 
 // Rutas de inicio, registro y login
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -66,11 +67,52 @@ Route::prefix('admin')->name('admin.')->group(function () {
    Route::get('/informes/ordenes', [InformeController::class, 'generarInformeOrdenes'])->name('informes.ordenes');
    Route::get('/informes/todos', [InformeController::class, 'generarTodosLosInformes'])->name('informes.todos');
    
-     // Rutas para la gestión de productos
-     Route::get('/productos', [ProductoController::class, 'index'])->name('producto.index');
-     Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create');
-     Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store');
-     Route::get('/producto/{id}/edit', [ProductoController::class, 'edit'])->name('producto.edit');
-     Route::put('/producto/{id}', [ProductoController::class, 'update'])->name('producto.update');
-     Route::delete('/producto/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
- });
+   // Rutas para la gestión de productos
+   Route::get('/productos', [ProductoController::class, 'index'])->name('producto.index');
+   Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create');
+   Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store');
+   Route::get('/producto/{id}/edit', [ProductoController::class, 'edit'])->name('producto.edit');
+   Route::put('/producto/{id}', [ProductoController::class, 'update'])->name('producto.update');
+   Route::delete('/producto/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
+});
+
+
+// RUTAS DE GERENTE
+Route::prefix('gerente')->name('gerente.')->group(function () {
+    // Ruta principal de Gerente
+    Route::get('/', [GerenteController::class, 'index'])->name('index');
+    
+    // Otras rutas específicas para gerente
+    Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.index');
+    Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
+    Route::get('/eventos/{evento}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
+    Route::put('/eventos/{evento}', [EventoController::class, 'update'])->name('eventos.update');
+    Route::delete('/eventos/{evento}', [EventoController::class, 'destroy'])->name('eventos.destroy');
+    
+    // Ruta para el calendario
+    Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
+    Route::get('/calendario/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos');
+    
+    // Rutas para la gestión de NIS
+    Route::get('/nis', [NISController::class, 'index'])->name('nis.index');
+    Route::get('/nis/create', [NISController::class, 'create'])->name('nis.create');
+    Route::post('/nis', [NISController::class, 'store'])->name('nis.store');
+    Route::get('/nis/{nis}/edit', [NISController::class, 'edit'])->name('nis.edit');
+    Route::put('/nis/{nis}', [NISController::class, 'update'])->name('nis.update');
+    Route::delete('/nis/{nis}', [NISController::class, 'destroy'])->name('nis.destroy');
+    
+    // Rutas para los informes
+    Route::get('/informes', [InformeController::class, 'index'])->name('informes.index');
+    Route::get('/informes/usuarios', [InformeController::class, 'generarInformeUsuarios'])->name('informes.usuarios');
+    Route::get('/informes/ordenes', [InformeController::class, 'generarInformeOrdenes'])->name('informes.ordenes');
+    Route::get('/informes/todos', [InformeController::class, 'generarTodosLosInformes'])->name('informes.todos');
+    
+    // Rutas para la gestión de productos
+    Route::get('/productos', [ProductoController::class, 'index'])->name('producto.index');
+    Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create');
+    Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store');
+    Route::get('/producto/{id}/edit', [ProductoController::class, 'edit'])->name('producto.edit');
+    Route::put('/producto/{id}', [ProductoController::class, 'update'])->name('producto.update');
+    Route::delete('/producto/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
+});
+
