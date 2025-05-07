@@ -9,11 +9,12 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\NISController;
 use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\AdminInformeController; // Ahora se llama AdminInformeController
+use App\Http\Controllers\AdminInformeController; 
 use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\GerenteController;  // Asegúrate de incluir el controlador Gerente
-use App\Http\Controllers\GerenteInformeController; // GerenteInformeController
+use App\Http\Controllers\GerenteController;  
+use App\Http\Controllers\GerenteInformeController; 
 use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\MeseroController;  // Asegúrate de incluir el controlador Mesero
 
 // Rutas de inicio, registro y login
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -36,41 +37,29 @@ Route::get('/admin', function () {
 
 // RUTAS DE PRODUCTOS
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Rutas para la gestión de eventos
     Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.index');
     Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
     Route::get('/eventos/{evento}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
     Route::put('/eventos/{evento}', [EventoController::class, 'update'])->name('eventos.update');
     Route::delete('/eventos/{evento}', [EventoController::class, 'destroy'])->name('eventos.destroy');
-
-    // Ruta para el calendario
     Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
     Route::get('/calendario/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos');
-
-    // Rutas para la gestión de NIS
     Route::get('/nis', [NISController::class, 'index'])->name('nis.index');
     Route::get('/nis/create', [NISController::class, 'create'])->name('nis.create');
     Route::post('/nis', [NISController::class, 'store'])->name('nis.store');
     Route::get('/nis/{nis}/edit', [NISController::class, 'edit'])->name('nis.edit');
     Route::put('/nis/{nis}', [NISController::class, 'update'])->name('nis.update');
     Route::delete('/nis/{nis}', [NISController::class, 'destroy'])->name('nis.destroy');
-
-    // Rutas para la gestión de Usuarios
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuario.index');
     Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuario.create');
     Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuario.store');
     Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('usuario.edit');
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
-
-    // Rutas para los informes - Ahora usan AdminInformeController
     Route::get('/informes', [AdminInformeController::class, 'index'])->name('informes.index');
     Route::get('/informes/usuarios', [AdminInformeController::class, 'generarInformeUsuarios'])->name('informes.usuarios');
     Route::get('/informes/ordenes', [AdminInformeController::class, 'generarInformeOrdenes'])->name('informes.ordenes');
     Route::get('/informes/todos', [AdminInformeController::class, 'generarTodosLosInformes'])->name('informes.todos');
-
-   
-    // Rutas para la gestión de productos
     Route::get('/productos', [ProductoController::class, 'index'])->name('producto.index');
     Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create');
     Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store');
@@ -79,38 +68,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/producto/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
 });
 
-
 // RUTAS DE GERENTE
 Route::prefix('gerente')->name('gerente.')->group(function () {
-    // Ruta principal de Gerente
     Route::get('/', [GerenteController::class, 'index'])->name('index');
-    
-    // Otras rutas específicas para gerente
     Route::get('/eventos', [EventoController::class, 'index'])->name('eventos.index');
     Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
     Route::get('/eventos/{evento}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
     Route::put('/eventos/{evento}', [EventoController::class, 'update'])->name('eventos.update');
     Route::delete('/eventos/{evento}', [EventoController::class, 'destroy'])->name('eventos.destroy');
-    
-    // Ruta para el calendario
     Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
     Route::get('/calendario/eventos', [CalendarioController::class, 'eventos'])->name('calendario.eventos');
-    
-    // Rutas para la gestión de NIS
     Route::get('/nis', [NISController::class, 'index'])->name('nis.index');
     Route::get('/nis/create', [NISController::class, 'create'])->name('nis.create');
     Route::post('/nis', [NISController::class, 'store'])->name('nis.store');
     Route::get('/nis/{nis}/edit', [NISController::class, 'edit'])->name('nis.edit');
     Route::put('/nis/{nis}', [NISController::class, 'update'])->name('nis.update');
     Route::delete('/nis/{nis}', [NISController::class, 'destroy'])->name('nis.destroy');
-    
-    // Rutas para los informes - Ahora usan GerenteInformeController
     Route::get('/informes', [GerenteInformeControllerV2::class, 'index'])->name('informes.index');
     Route::get('/informes/usuarios', [GerenteInformeControllerV2::class, 'generarInformeUsuarios'])->name('informes.usuarios');
     Route::get('/informes/ordenes', [GerenteInformeControllerV2::class, 'generarInformeOrdenes'])->name('informes.ordenes');
     Route::get('/informes/todos', [GerenteInformeControllerV2::class, 'generarTodosLosInformes'])->name('informes.todos');
-    
-    // Rutas para la gestión de productos
     Route::get('/productos', [ProductoController::class, 'index'])->name('producto.index');
     Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create');
     Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store');
@@ -119,11 +96,16 @@ Route::prefix('gerente')->name('gerente.')->group(function () {
     Route::delete('/producto/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
 });
 
-
 // Ruta para bartender
-
 Route::prefix('Bartender')->name('Bartender.')->group(function () {
     Route::get('/', [SolicitudController::class, 'index'])->name('index'); // Ruta para ver las solicitudes pendientes
     Route::post('/despachar', [SolicitudController::class, 'despachar'])->name('despachar'); // Ruta para despachar solicitud
     Route::post('/rechazar', [SolicitudController::class, 'rechazar'])->name('rechazar'); // Ruta para rechazar solicitud
+});
+
+// Ruta para mesero
+Route::prefix('mesero')->name('mesero.')->group(function () {
+    Route::get('/', [MeseroController::class, 'index'])->name('index');  // Ruta principal del mesero
+    Route::post('/entregar', [MeseroController::class, 'entregar'])->name('entregar');  // Ruta para entregar la orden
+    Route::post('/rechazar', [MeseroController::class, 'rechazar'])->name('rechazar');  // Ruta para rechazar la orden
 });
