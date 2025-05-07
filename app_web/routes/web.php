@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminInformeController; // Ahora se llama AdminInformeC
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\GerenteController;  // Asegúrate de incluir el controlador Gerente
 use App\Http\Controllers\GerenteInformeController; // GerenteInformeController
+use App\Http\Controllers\SolicitudController;
 
 // Rutas de inicio, registro y login
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -116,4 +117,13 @@ Route::prefix('gerente')->name('gerente.')->group(function () {
     Route::get('/producto/{id}/edit', [ProductoController::class, 'edit'])->name('producto.edit');
     Route::put('/producto/{id}', [ProductoController::class, 'update'])->name('producto.update');
     Route::delete('/producto/{id}', [ProductoController::class, 'destroy'])->name('producto.destroy');
+});
+
+
+// Ruta para bartender
+
+Route::prefix('Bartender')->name('Bartender.')->group(function () {
+    Route::get('/', [SolicitudController::class, 'index'])->name('index'); // Ruta para ver las solicitudes pendientes
+    Route::post('/despachar', [SolicitudController::class, 'despachar'])->name('despachar'); // Ruta para despachar solicitud
+    Route::post('/rechazar', [SolicitudController::class, 'rechazar'])->name('rechazar'); // Ruta para rechazar solicitud
 });
