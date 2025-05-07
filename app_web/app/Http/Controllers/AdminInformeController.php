@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\Orden;
+use ZipArchive;
 
 class InformeController extends Controller
 {
@@ -14,13 +15,13 @@ class InformeController extends Controller
     public function index()
     {
         // Retorna la vista del index de informes donde el usuario puede seleccionar los informes a descargar
-        return view('admin.informes.index');
+        return view('admin.informes.index'); // Cambia esta vista si la ruta es diferente
     }
 
     // Generar Informe de Usuarios
     public function generarInformeUsuarios()
     {
-        $usuarios = Usuario::with('tipoDeDocumento', 'roles')->get(); // Asegúrate de cargar las relaciones
+        $usuarios = Usuario::with('tipoDeDocumento', 'roles')->get(); // Asegúrate de cargar las relaciones necesarias
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -95,17 +96,16 @@ class InformeController extends Controller
     public function generarTodosLosInformes()
     {
         $zipFile = public_path('informes/informes.zip');
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
 
         // Crea un archivo ZIP
-        if ($zip->open($zipFile, \ZipArchive::CREATE) === TRUE) {
+        if ($zip->open($zipFile, ZipArchive::CREATE) === TRUE) {
             // Informe de usuarios
             $usuariosSpreadsheet = new Spreadsheet();
             $usuariosSheet = $usuariosSpreadsheet->getActiveSheet();
             $usuariosSheet->setTitle('Usuarios');
             $usuariosSheet->setCellValue('A1', 'Nombres');
-            // Otros encabezados
-            $usuariosSheet->fromArray(['data'], null, 'A2'); // Completar con datos de usuarios
+            // Completar con datos de usuarios
             $usuariosFile = public_path('informes/informe_usuarios.xlsx');
             $writerUsuarios = new Xlsx($usuariosSpreadsheet);
             $writerUsuarios->save($usuariosFile);
@@ -116,8 +116,7 @@ class InformeController extends Controller
             $ordenesSheet = $ordenesSpreadsheet->getActiveSheet();
             $ordenesSheet->setTitle('Órdenes');
             $ordenesSheet->setCellValue('A1', 'ID Orden');
-            // Otros encabezados
-            $ordenesSheet->fromArray(['data'], null, 'A2'); // Completar con datos de órdenes
+            // Completar con datos de órdenes
             $ordenesFile = public_path('informes/informe_ordenes.xlsx');
             $writerOrdenes = new Xlsx($ordenesSpreadsheet);
             $writerOrdenes->save($ordenesFile);

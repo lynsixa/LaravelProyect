@@ -36,14 +36,15 @@ class LoginController extends Controller
             switch ($usuario->Roles_idRoles) {
                 case 1:
                     return redirect()->route('admin.index');
-                case 2:
-                    return redirect()->route('gerente.index');
+                    case 2:
+                        return redirect()->route('gerente.index');  // Esta debe coincidir con el nombre de la ruta
+                    
                 case 3:
                     return redirect()->route('mesero.index');
                 case 4:
                     return redirect()->route('usuario.index');
                 case 5:
-                    return redirect()->route('bartender.index');
+                    return redirect()->route('Bartender.index');
                 default:
                     return redirect()->route('home');
             }
