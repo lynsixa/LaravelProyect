@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use App\Models\CodigoNis;
+use App\Models\CodigoNis; // Asegúrate de tener este modelo si usas BD para menú
 
 class CodigoNisController extends Controller
 {
@@ -35,7 +35,6 @@ class CodigoNisController extends Controller
 
         $codigoIngresado = $request->codigo;
 
-        // Buscar código en la tabla
         $codigo = CodigoNis::where('Descripcion', $codigoIngresado)->first();
 
         if (!$codigo) {
@@ -46,21 +45,31 @@ class CodigoNisController extends Controller
             return back()->with('mensaje', 'Código ya utilizado, no puede ingresar');
         }
 
-        // Código disponible: marcar como usado
+        // Marcar código como usado
         $codigo->Disponibilidad = 0;
         $codigo->save();
 
-        // Guardar código en sesión
+        // Guardar en sesión
         Session::put('codigo', $codigoIngresado);
         Session::put('numeroMesa', $codigo->Mesa_idMesa);
-        Session::put('numeroPiso', ''); // Si tienes campo para piso, asigna aquí
+        Session::put('numeroPiso', $codigo->Eventos_idEventos ?? 'No disponible');
+
+        // Si tienes relación para obtener descripción menú, la obtienes aquí
+        // Por ahora simulamos:
+        $menuDescripcion = "Menú ejemplo"; // Reemplaza con lógica real si tienes modelo relacionado
+
+        Session::put('menuDescripcion', $menuDescripcion);
 
         return redirect()->route('usuarios.codigonis.indexscan');
     }
 
     public function indexScan()
     {
-        return view('usuarios.codigonis.indexscan');
+        $numeroMesa = Session::get('numeroMesa', 'No disponible');
+        $numeroPiso = Session::get('numeroPiso', 'No disponible');
+        $menuDescripcion = Session::get('menuDescripcion', 'No disponible');
+
+        return view('usuarios.codigonis.indexscan', compact('numeroMesa', 'numeroPiso', 'menuDescripcion'));
     }
 
     public function cerrarSesion()
