@@ -41,8 +41,9 @@ class LoginController extends Controller
                     
                 case 3:
                     return redirect()->route('mesero.index');
-                case 4:
-                    return redirect()->route('usuario.index');
+                    case 4:
+                        return redirect()->route('usuarios.codigonis.index');
+                    
                 case 5:
                     return redirect()->route('Bartender.index');
                 default:

@@ -15,6 +15,8 @@ use App\Http\Controllers\GerenteController;
 use App\Http\Controllers\GerenteInformeController; 
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\MeseroController;  // Asegúrate de incluir el controlador Mesero
+use App\Http\Controllers\Usuarios\CodigoNisController;
+
 
 // Rutas de inicio, registro y login
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -108,4 +110,12 @@ Route::prefix('mesero')->name('mesero.')->group(function () {
     Route::get('/', [MeseroController::class, 'index'])->name('index');  // Ruta principal del mesero
     Route::post('/entregar', [MeseroController::class, 'entregar'])->name('entregar');  // Ruta para entregar la orden
     Route::post('/rechazar', [MeseroController::class, 'rechazar'])->name('rechazar');  // Ruta para rechazar la orden
+});
+
+
+Route::prefix('usuarios/codigonis')->name('usuarios.codigonis.')->group(function () {
+    Route::get('/', [CodigoNisController::class, 'index'])->name('index');
+    Route::post('/', [CodigoNisController::class, 'validarCodigo'])->name('validar');
+    Route::get('/indexscan', [CodigoNisController::class, 'indexScan'])->name('indexscan');
+    Route::get('/cerrar-sesion', [CodigoNisController::class, 'cerrarSesion'])->name('cerrar_sesion');
 });
